@@ -1,0 +1,98 @@
+<div class="search-container">
+  <mat-form-field>
+    <input matInput placeholder="Summoner Name" [(ngModel)]="summonerName" />
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="loadMatchesData()" (click)="loadRankedData()">
+    Search
+  </button>
+</div>
+
+<div class="rankeds-container">
+  <div *ngFor="let rank of rankedData" class="rank-container mat-elevation-z2">
+    <h3>Rank Information</h3>
+    <p>Queue Type: {{ rank.queueType }}</p>
+    <p>Tier: {{ rank.tier }}</p>
+    <p>Rank: {{ rank.rank }}</p>
+    <p>Wins: {{ rank.wins }}</p>
+    <p>Losses: {{ rank.losses }}</p>
+    <p>Winrate: {{ calculateWinrate(rank) }}</p>
+  </div>
+</div>
+
+
+<div *ngIf="isLoading" class="loading-overlay">
+  <mat-spinner class="loading-spinner"></mat-spinner>
+</div>
+
+<div *ngFor="let match of matchData" class="match-container">
+  <div class="match-details-container">
+    <div class="match-details">
+      <h3>Match Details</h3>
+      <table mat-table>
+        <thead mat-header-row>
+          <th>Game ID</th>
+          <th>Game Mode</th>
+          <th>Game Type</th>
+          <th>Game Version</th>
+          <th>Map ID</th>
+          <th>Game Duration</th>
+        </thead>
+        <tbody mat-row>
+          <tr>
+            <td class="table-cell">{{ match.info.gameId }}</td>
+            <td class="table-cell">{{ match.info.gameMode }}</td>
+            <td class="table-cell">{{ match.info.gameType }}</td>
+            <td class="table-cell">{{ match.info.gameVersion }}</td>
+            <td class="table-cell">{{ match.info.mapId }}</td>
+            <td class="table-cell">
+              {{ secondsToMinutes(match.info.gameDuration) }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="participants-details">
+      <h3>Participants</h3>
+      <table mat-table>
+        <thead mat-header-row>
+          <th>#</th>
+          <th>Name</th>
+          <th>Pick</th>
+          <th>Kills</th>
+          <th>Deaths</th>
+          <th>Assists</th>
+          <th>KDA</th>
+        </thead>
+        <tbody mat-row>
+          <tr *ngFor="let participant of match.info.participants">
+            <td>#{{ participant.placement }}</td>
+            <td>
+              <a
+                href="javascript:void(0);"
+                (click)="setNewSummonerNameAndReloadData(participant.riotIdGameName)"
+                (click)="ReloadRankedData(participant.summonerId)"
+              >
+                #{{ participant.riotIdGameName }}
+              </a>
+            </td>
+            <td>{{ participant.championName }}</td>
+            <td>{{ participant.kills }}</td>
+            <td>{{ participant.deaths }}</td>
+            <td>{{ participant.assists }}</td>
+            <td>{{ calculateKDA(participant.kills, participant.deaths, participant.assists) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="divider mat-elevation-z1"></div>
+</div>
+
+<div *ngIf="showLoadMore">
+  <button
+    mat-raised-button color="primary" class="center-button" (click)="loadMoreMatches()">
+    Carregar Mais
+  </button>
+</div>
