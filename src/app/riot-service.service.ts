@@ -8,6 +8,8 @@ import { environment } from 'src/environment';
 })
 export class RiotServiceService {
 
+  // you can get ur api_key here https://developer.riotgames.com/
+
   private readonly API_KEY =  environment.apiKey;
   
   constructor(private http: HttpClient) { }
