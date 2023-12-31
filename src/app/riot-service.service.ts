@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, forkJoin, map, switchMap } from 'rxjs';
 import { environment } from 'src/environment';
+import { Root, Root2 } from './Models/Models';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class RiotServiceService {
     return this.http.get<any>(url).pipe(map(response => response.id));
   }
 
-  getPlayerRankedData(playerId: string): Observable<any[]> {
+  getPlayerRankedData(playerId: string): Observable<Root2[]> {
     const url = `https://br1.api.riotgames.com/lol/league/v4/entries/by-summoner/${playerId}?api_key=${this.API_KEY}`;
     return this.http.get<any[]>(url);
   }
@@ -39,7 +40,7 @@ export class RiotServiceService {
     );
   }
 
-  getMatchDataArray(playerName: string, numGames: number = 5): Observable<any[]> {
+  getMatchDataArray(playerName: string, numGames: number = 5): Observable<Root[]> {
     return this.getGameIDs(playerName).pipe(
       switchMap((gameIDs) =>
         forkJoin(

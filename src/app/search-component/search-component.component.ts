@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RiotServiceService } from '../riot-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
+import { Root, Root2 } from '../Models/Models';
 
 @Component({
   selector: 'app-search-component',
@@ -15,8 +16,8 @@ export class SearchComponentComponent {
   summonerName = '';
   summonerId = '';
 
-  matchData: any[] = [];
-  rankedData: any[] = [];
+  rankedData: Root2[] = [];
+  matchData: Root[] = [];
 
   isLoading = false;
   showLoadMore = false;
