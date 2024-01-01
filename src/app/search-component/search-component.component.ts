@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RiotServiceService } from '../riot-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
-import { Root, Root2 } from '../Models/Models';
+import { Participant, Root, Root2 } from '../Models/Models';
 
 @Component({
   selector: 'app-search-component',
@@ -21,9 +21,9 @@ export class SearchComponentComponent {
 
   isLoading = false;
   showLoadMore = false;
-  
+
   loadedMatches = 5;
-  
+
 
   ngOnInit(): void {
 
@@ -73,7 +73,7 @@ export class SearchComponentComponent {
       }
     );
   }
-  
+
   loadMatchesData() {
     this.isLoading = true;
     this.riotService.getMatchDataArray(this.summonerName, this.loadedMatches).subscribe(
@@ -113,4 +113,17 @@ export class SearchComponentComponent {
     }
   }
 
+  getAllDamagesDealth(participants: Participant[]): number[] {
+    return participants.map(participant => participant.totalDamageDealtToChampions);
+  }
+
+  getAllDamagesTaken(participants: Participant[]): number[] {
+    return participants.map(participant => participant.totalDamageTaken);
+  }
+
+  calculateProgressBarValue(damage: number, allDamages: number[]): number {
+    const maxValue = Math.max(...allDamages);
+    return (damage / maxValue) * 100;
+  }
+  
 }

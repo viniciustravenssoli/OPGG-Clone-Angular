@@ -2,7 +2,12 @@
   <mat-form-field>
     <input matInput placeholder="Summoner Name" [(ngModel)]="summonerName" />
   </mat-form-field>
-  <button mat-raised-button color="primary" (click)="loadMatchesData()" (click)="loadRankedData()">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="loadMatchesData()"
+    (click)="loadRankedData()"
+  >
     Search
   </button>
 </div>
@@ -18,7 +23,6 @@
     <p>Winrate: {{ calculateWinrate(rank) }}</p>
   </div>
 </div>
-
 
 <div *ngIf="isLoading" class="loading-overlay">
   <mat-spinner class="loading-spinner"></mat-spinner>
@@ -62,6 +66,8 @@
           <th>Kills</th>
           <th>Deaths</th>
           <th>Assists</th>
+          <th>DamageDealth</th>
+          <th>DamageTaken</th>
           <th>KDA</th>
         </thead>
         <tbody mat-row>
@@ -70,7 +76,9 @@
             <td>
               <a
                 href="javascript:void(0);"
-                (click)="setNewSummonerNameAndReloadData(participant.riotIdGameName)"
+                (click)="
+                  setNewSummonerNameAndReloadData(participant.riotIdGameName)
+                "
                 (click)="ReloadRankedData(participant.summonerId)"
               >
                 #{{ participant.riotIdGameName }}
@@ -80,7 +88,41 @@
             <td>{{ participant.kills }}</td>
             <td>{{ participant.deaths }}</td>
             <td>{{ participant.assists }}</td>
-            <td>{{ calculateKDA(participant.kills, participant.deaths, participant.assists) }}</td>
+            <td>
+              {{ participant.totalDamageDealtToChampions }}
+              <mat-progress-bar
+                mode="determinate"
+                [value]="
+                  calculateProgressBarValue(
+                    participant.totalDamageDealtToChampions,
+                    getAllDamagesDealth(match.info.participants)
+                  )
+                "
+              >
+              </mat-progress-bar>
+            </td>
+            <td>
+              {{ participant.totalDamageTaken }}
+              <mat-progress-bar
+                mode="determinate"
+                [value]="
+                  calculateProgressBarValue(
+                    participant.totalDamageTaken,
+                    getAllDamagesTaken(match.info.participants)
+                  )
+                "
+              >
+              </mat-progress-bar>
+            </td>
+            <td>
+              {{
+                calculateKDA(
+                  participant.kills,
+                  participant.deaths,
+                  participant.assists
+                )
+              }}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -92,7 +134,11 @@
 
 <div *ngIf="showLoadMore">
   <button
-    mat-raised-button color="primary" class="center-button" (click)="loadMoreMatches()">
+    mat-raised-button
+    color="primary"
+    class="center-button"
+    (click)="loadMoreMatches()"
+  >
     Carregar Mais
   </button>
 </div>
