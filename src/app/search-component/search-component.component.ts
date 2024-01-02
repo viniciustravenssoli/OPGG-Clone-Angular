@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { RiotServiceService } from '../riot-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { EMPTY, Observable, switchMap } from 'rxjs';
 import { Participant, Root, Root2 } from '../Models/Models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-search-component',
@@ -27,6 +28,11 @@ export class SearchComponentComponent {
 
   ngOnInit(): void {
 
+  }
+
+  CreateErrorHandler(error : HttpErrorResponse) : Observable<any> {
+    console.log(error)
+    return EMPTY
   }
 
   secondsToMinutes(seconds: number) {
@@ -63,32 +69,33 @@ export class SearchComponentComponent {
       switchMap((summonerId) => {
         return this.riotService.getPlayerRankedData(summonerId);
       })
-    ).subscribe(
-      (rankedData) => {
-        this.rankedData = rankedData
+    ).subscribe({
+      next: (rankedData) => {
+        this.rankedData = rankedData;
         console.log('Ranked data:', this.rankedData);
       },
-      (error) => {
-        console.error('Error fetching data:', error);
+      error: (error) => {
+        this.CreateErrorHandler(error);
       }
-    );
+    });
   }
+  
 
   loadMatchesData() {
     this.isLoading = true;
-    this.riotService.getMatchDataArray(this.summonerName, this.loadedMatches).subscribe(
-      (matches) => {
+    this.riotService.getMatchDataArray(this.summonerName, this.loadedMatches).subscribe({
+      next: (matches) => {
         this.matchData = matches;
         console.log(this.matchData);
         this.sortParticipantsByPlacement();
         this.isLoading = false;
         this.showLoadMore = true;
       },
-      (error) => {
-        console.error('Error fetching match data:', error);
+      error: (error) => {
+        this.CreateErrorHandler(error);
         this.isLoading = false;
       }
-    );
+    });
   }
 
   sortParticipantsByPlacement() {

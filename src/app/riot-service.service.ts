@@ -27,7 +27,7 @@ export class RiotServiceService {
 
   getPlayerRankedData(playerId: string): Observable<Root2[]> {
     const url = `https://br1.api.riotgames.com/lol/league/v4/entries/by-summoner/${playerId}?api_key=${this.API_KEY}`;
-    return this.http.get<any[]>(url);
+    return this.http.get<Root2[]>(url);
   }
   
   getGameIDs(playerName: string): Observable<string[]> {
@@ -45,7 +45,7 @@ export class RiotServiceService {
       switchMap((gameIDs) =>
         forkJoin(
           gameIDs.slice(0, numGames).map((matchID) =>
-            this.http.get<any>(
+            this.http.get<Root>(
               `https://americas.api.riotgames.com/lol/match/v5/matches/${matchID}?api_key=${this.API_KEY}`
             )
           )

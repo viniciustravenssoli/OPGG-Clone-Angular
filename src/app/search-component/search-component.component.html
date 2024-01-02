@@ -63,6 +63,7 @@
           <th>#</th>
           <th>Name</th>
           <th>Pick</th>
+          <th>GoldEarned</th>
           <th>Kills</th>
           <th>Deaths</th>
           <th>Assists</th>
@@ -85,11 +86,12 @@
               </a>
             </td>
             <td>{{ participant.championName }}</td>
+            <td>{{ participant.goldEarned | number}}</td>
             <td>{{ participant.kills }}</td>
             <td>{{ participant.deaths }}</td>
             <td>{{ participant.assists }}</td>
             <td>
-              {{ participant.totalDamageDealtToChampions }}
+              {{ participant.totalDamageDealtToChampions | number }}
               <mat-progress-bar
                 mode="determinate"
                 [value]="
@@ -102,7 +104,7 @@
               </mat-progress-bar>
             </td>
             <td>
-              {{ participant.totalDamageTaken }}
+              {{ participant.totalDamageTaken | number }}
               <mat-progress-bar
                 mode="determinate"
                 [value]="
