@@ -1,0 +1,33 @@
+table.custom-table {
+    width: 65%;
+    margin: auto;
+    border-collapse: collapse;
+    text-align: center;
+  }
+  
+  th, td {
+    padding: 5px;
+    border: 1px solid #ddd;
+  }
+  
+  .center {
+    text-align: center;
+  }
+  
+  .progress-bar-container {
+    width: 100%;
+    height: 20px;
+    background-color: #ddd;
+    border-radius: 7px;
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    background-color: #0b7dda;
+  }
+
+  .header-row {
+    background-color: #ccc; /* substitua #ccc pela cor de cinza desejada */
+  }
+  

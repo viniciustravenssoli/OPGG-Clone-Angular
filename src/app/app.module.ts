@@ -18,11 +18,14 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SearchComponentComponent } from './search-component/search-component.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { RankingComponent } from './ranking/ranking.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponentComponent,
+    RankingComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatFormFieldModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

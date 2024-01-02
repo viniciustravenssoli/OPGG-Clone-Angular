@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
       <h1>{{ title }}</h1>
       <nav>
         <a routerLink="/pages/search">Pesquisar</a>
+        <a routerLink="/pages/rank">Ranking</a>
       </nav>
     </div>
 
