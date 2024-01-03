@@ -14,23 +14,31 @@ export class RankingComponent {
   constructor(private rankingService: RankingService, private router: Router, private route: ActivatedRoute) { }
 
   rank!: Rank
+  isLoading = false;
 
   ngOnInit(): void {
     this.loadPlayer();
   }
 
   loadPlayer() {
+    this.isLoading = true;
     this.rankingService.getPlayers().subscribe({
       next: (rank) => {
-        this.rank = rank
-        this.sortPlayerByLeaguePoints(this.rank)
+        this.rank = rank;
+        this.sortPlayerByLeaguePoints(this.rank);
         console.log(this.rank);
       },
       error: (error) => {
-        console.log(error)
+        console.log(error);
+      },
+      complete: () => {
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 800);
       }
-    })
+    });
   }
+  
 
   private sortPlayerByLeaguePoints(rank: Rank): void {
     if (rank && rank.entries) {

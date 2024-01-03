@@ -1,24 +1,36 @@
-<table class="custom-table">
-  <thead>
-    <tr class="header-row">
-      <th>Invocador</th>
-      <th>Tier</th>
-      <th>PDL</th>
-      <th>Taxa de Vitória</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let player of rank.entries">
-      <td class="center">{{ player.summonerName }}</td>
-      <td class="center">{{ player.rank }}</td>
-      <td class="center">{{ player.leaguePoints }}</td>
-      <td class="center">
-        {{ calculateWinrate(player) }}
-        <div class="progress-bar-container">
-          <div class="progress-bar"
-               [style.width.%]="calculateProgressBarValue(player.wins, player.losses)"></div>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div>
+  <div *ngIf="isLoading" class="loading-overlay">
+    <mat-spinner class="loading-spinner"></mat-spinner>
+  </div>
+
+  <table class="custom-table">
+    <thead>
+      <tr class="header-row">
+        <th>#</th>
+        <th>Invocador</th>
+        <th>Tier</th>
+        <th>PDL</th>
+        <th>Taxa de Vitória</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let player of rank.entries; let i = index">
+        <td class="center">{{ i + 1 }}</td>
+        <td class="center">{{ player.summonerName }}</td>
+        <td class="center">Challenger {{ player.rank }}</td>
+        <td class="center">{{ player.leaguePoints }}</td>
+        <td class="center">
+          {{ calculateWinrate(player) }}
+          <div class="progress-bar-container">
+            <div
+              class="progress-bar"
+              [style.width.%]="
+                calculateProgressBarValue(player.wins, player.losses)
+              "
+            ></div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
